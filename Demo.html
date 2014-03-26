@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="Style/main.css" rel="stylesheet" type="text/css">    
+    <script type="text/javascript" language="javascript">
+            function onDeviceReady() {
+               
+                window.onmousemove = handleOnMouseMove;
+                setDifficulty();
+            }
+    
+            function handleOnMouseMove(e) {
+                e.preventDefault();//Stops the default behavior
+            }
+        
+            function togleDifficulty() {
+                var modeDifficulty = AppMobi.cache.getCookie("modeDifficulty");
+                if(modeDifficulty=="HARD"){
+                    setDifficultyEasy();
+                }else{
+                    setDifficultyHard();
+                }
+            }
+
+            function setDifficulty() {
+                var modeDifficulty = AppMobi.cache.getCookie("modeDifficulty");
+                if(modeDifficulty=="HARD"){
+                    setDifficultyHard();
+                }else{
+                    setDifficultyEasy();
+                }
+            }            
+            
+            function setDifficultyHard(){
+                AppMobi.cache.setCookie("modeDifficulty","HARD",30);
+                AppMobi.cache.setCookie("modeColumns","3",30);
+                AppMobi.cache.setCookie("modeRows","3",30);
+                var eee = document.getElementById('btnDifficulty');
+                eee.innerHTML ="Set to easy mode";
+            }
+
+            function setDifficultyEasy(){
+                AppMobi.cache.setCookie("modeDifficulty","EASY",30);
+                AppMobi.cache.setCookie("modeColumns","3",30);
+                AppMobi.cache.setCookie("modeRows","2",30);
+                var eee = document.getElementById('btnDifficulty');
+                eee.innerHTML ="Set to hard mode";
+            }
+            
+            var clickstart;
+            function toggleOn(){
+                var Time = new Date();
+                clickstart = Time.getTime();
+            }
+            function toggleOff(){
+                 if(new Date().getTime() - clickstart > 2000) togleDifficulty();
+            }
+			
+			function SelectPig(){
+                var eee = document.getElementById('main');
+				eee.style.display = 'none';		
+				
+                var fff = document.getElementById('Pig');
+				fff.style.display = 'block';		
+				
+				run();
+				
+			}
+			
+			
+			
+			function run(){
+			 var eeeeee = document.getElementById("canJigsaw");
+			eeeeee.height = window.innerHeight;
+			eeeeee.width = window.innerWidth;
+		   
+			/*
+			var totalRows = AppMobi.cache.getCookie("modeRows");
+			var totalColumns = AppMobi.cache.getCookie("modeColumns");
+			var modeDifficulty = AppMobi.cache.getCookie("modeDifficulty");
+			*/
+		   
+			var totalRows = 2;
+			var totalColumns = 3;
+			var modeDifficulty = "EASY";
+			var canvasID = "canJigsaw";
+			var image1 = document.getElementById("img1");
+    
+			 var game = new jigsaw(canvasID, image1, totalRows, totalColumns, modeDifficulty);
+			 game.initDrawing();
+			 }
+			
+    </script> 
+</head>
+<body id="index" onload="onDeviceReady()">
+    
+	
+	<div id="main">
+	
+    <a id="btnDifficulty" OnMouseDown="toggleOn()" OnMouseUp="toggleOff()">Change difficulty</a>
+    
+    <img src="Images/Pig.png" width="300" style="position:absolute; top:400px; left:10px;" onclick="SelectPig()" />
+    <a href="Sheep.html"><img src="Images/Sheep.png" width="300" style="position:absolute; top:420px; left:300px;" /></a>
+    <a href="Chicken.html"><img src="Images/Chicken.png" width="300" style="position:absolute; top:420px; left:600px;" /></a>
+	
+</div>
+
+
+<div id="Pig" style="display:block;">
+    <a href="index.html"><img src="Images/Arrow.png" id="backArrow" /></a>
+   
+    <canvas id="canJigsaw" width="1024" height="768"></canvas>
+    <img id="img1" width="1" height="1" src="Images/Pig.png"></img>
+    <img id="img2" width="1" height="1" src="Images/PigShadow.png"></img>
+    <img id="img3" width="1" height="1" src="Images/Landscape.png"></img>
+</div>
+
+</body>
+</html>
+
